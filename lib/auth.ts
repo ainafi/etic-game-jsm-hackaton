@@ -22,6 +22,7 @@ export async function createUserAccount(user: INewUser) {
 
     console.log("User account created successfully:", newUser); // Debug
     return newUser;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === 409) {
       console.error("A user with the same email already exists.");
@@ -50,12 +51,13 @@ export async function saveUserToDb(user: { email: string; password: string; prof
 export async function signInAccount(user: { email: string; password: string }) {
   try {
     console.log("Signing in user with email:", user.email); // Debug
-    const session = await account.createEmailPasswordSession(user.email, user.password);
+    await account.createEmailPasswordSession(user.email, user.password);
     const currentUser = await account.get();
 
     console.log("User signed in successfully:", currentUser); // Debug
     useAuthStore.getState().setUser(currentUser);
     return currentUser;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error signing in user:", error);
     throw error;
