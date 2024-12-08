@@ -1,7 +1,12 @@
+import ProtectedRoute from "@/middleware/ProtectedRoute";
+
 export default function RootLayout({children,}:{children: React.ReactNode;}) {
     return (
-      <main>
-        {children}
-      </main>
+      <ProtectedRoute>
+        <main>
+          {children}
+        </main>
+
+      </ProtectedRoute>
     );
   }
