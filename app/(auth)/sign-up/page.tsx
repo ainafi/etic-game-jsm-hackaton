@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import Image from 'next/image'
-import React from 'react'
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
+import Image from 'next/image';
+import React from 'react';
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 
 import {
   Form,
@@ -14,28 +14,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import Link from 'next/link'
-import { createUserAccount } from '@/lib/auth'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Link from 'next/link';
+import { createUserAccount } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
     message: "au moins 6 caractere",
   }),
-})
+});
 
-const SignUp= () => {
+const SignUp = () => {
+  const router=useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password:""
+      password: ""
     },
-  })
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const newUser=await createUserAccount(values)
-   
+    try {
+      const newUser = await createUserAccount(values);
+      if(!newUser) throw Error
+      router.push("/sign-in")
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -43,48 +53,54 @@ const SignUp= () => {
       <Image src="/image/logo.png" width={108} height={100} alt="sign" />
       <h2 className='text-2xl py-5 font-semibold text-white'>S&apos;inscire</h2>
       <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='text-white capitalize' >email</FormLabel>
-              <FormControl>
-                <Input className='w-[300px]' placeholder="votre email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='text-white ' >Mot de passe</FormLabel>
-              <FormControl>
-                <Input type='password' placeholder="votre mot de passe " {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className='w-[300px] capitalize bg-red' type="submit">s&apos;
-          inscrire </Button>
-      </form>
-    </Form>
-    <div>
-      <p className='text-center pt-2 text-white'>ou</p>
-      <Button className='bg-white w-[300px] flex items-center justify-between my-3 '>
-        <Image src='/image/google.png' width={20} height={20} alt='google'/>
-        <span className='text-black '>Connecter avec google</span>
-        <span></span>
-      </Button>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-white capitalize'>email</FormLabel>
+                <FormControl>
+                  <Input className='w-[300px]' placeholder="votre email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-white'>Mot de passe</FormLabel>
+                <FormControl>
+                  <Input type='password' placeholder="votre mot de passe " {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className='w-[300px] capitalize bg-red' type="submit">
+            s&apos;inscrire
+          </Button>
+        </form>
+      </Form>
+      <div>
+        <p className='text-center pt-2 text-white'>ou</p>
+        <Button className='bg-white w-[300px] flex items-center justify-between my-3'>
+          <Image src='/image/google.png' width={20} height={20} alt='google'/>
+          <span className='text-black'>Connecter avec google</span>
+          <span></span>
+        </Button>
+      </div>
+      <p className='text-white py-2'>
+        J&apos;ai un compte {" "}
+        <span>
+          <Link className='text-blue-500' href='/sign-in'>se connecter</Link>
+        </span>
+      </p>
     </div>
-    <p className='text-white py-2'>J&apos;ai  un compte {" "}<span><Link className='text-blue-500' href='/sign-in'>se connecter</Link></span></p>
-    </div>
-  )
+  );
 }
 
-export default SignUp
+export default SignUp;
