@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "etic game",
@@ -16,9 +18,9 @@ export default function RootLayout({
         <body
           className={`antialiased`}
         >
-        
+        <Suspense fallback={<Loading/>}>
           {children}
-
+        </Suspense>
         </body>
       </html>
 

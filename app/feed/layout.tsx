@@ -1,7 +1,7 @@
 "use client"
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react";
-import Sidebar from "@/components/shared/Sidebar";
+import AppSidebar from "@/components/shared/Sidebar";
 import ProtectedRoute from "@/middleware/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -21,16 +21,31 @@ export default function FeedLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ProtectedRoute>
-        <main className="bg-dark flex min-h-screen w-full flex-col lg:flex-row">
-          <Sidebar />
-          <div className="mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10">
-            <div className="max-w-5xl mx-auto px-5 md:px-10 w-full text-dark-400 p-16-regular">
-              {children}
+      <SidebarProvider>
+        <ProtectedRoute>
+          <main
+           className="bg-dark !text-white flex min-h-screen w-full flex-col lg:flex-row"
+           >
+            <div className="hidden lg:flex">
+              <AppSidebar />  
+
             </div>
-          </div>
-        </main>
-      </ProtectedRoute>
+            <div 
+            className="mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10"
+            >
+              <div 
+              className="max-w-[1500px] mx-auto px-5 md:px-10 w-full text-dark-400 p-16-regular"
+              >
+                <div className="hidden lg:flex">
+
+                  <SidebarTrigger />
+                </div>
+                {children}
+              </div>
+            </div>
+          </main>
+        </ProtectedRoute>
+      </SidebarProvider>
     </QueryClientProvider>
   );
 }
