@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSkeleton,
 } from "@/components/ui/sidebar"
-import React from 'react'
+import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { User2, ChevronUp } from 'lucide-react'
@@ -28,6 +28,7 @@ interface Igenre{
   name:string
 }
 const AppSidebar = () => {
+  const [isSelected,setIsSelected]=useState("Genre")
   const router=useRouter()
   const {isLoading,data,error}=useQuery({
     queryKey:["genres"],
@@ -68,7 +69,7 @@ const AppSidebar = () => {
               {data.genres.map((genre:Igenre) => (
                 <SidebarMenuItem key={genre.id}>
                   <SidebarMenuButton asChild>
-                      <span className=''>{genre.name}</span>
+                      <span onClick={()=>setIsSelected(genre.name)} className={`${isSelected === genre.name ? "bg-white text-black" : ""} cursor-pointer`}>{genre.name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

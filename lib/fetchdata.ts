@@ -12,7 +12,7 @@ const options = {
 export const fetchData = async (section: string, queryParameters = {}) => {
   const params = new URLSearchParams({
     language: 'en-US',
-    page: '1',
+    page: "1",
     ...queryParameters,
   });
 
