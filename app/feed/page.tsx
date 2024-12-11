@@ -85,7 +85,6 @@ const Feed = () => {
             <DropdownMenuTrigger className='w-full border-none'>
               <div className='flex items-center  justify-between capitalize'>
                 {isDiscover} <ChevronDown /> 
-
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
