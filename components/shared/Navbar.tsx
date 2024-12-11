@@ -49,7 +49,7 @@ const Navbar = () => {
                 <FormItem>
                   <FormControl>
                     <div className='relative'>
-                      <Input {...field} className='w-[30rem]' placeholder="Search" />
+                      <Input {...field} className='w-[25rem] md:w-[30rem]' placeholder="Search" />
                       <Button type="submit" className='absolute top-0 right-0 bg-transparent hover:bg-transparent'>
                         <Search />
                       </Button>
