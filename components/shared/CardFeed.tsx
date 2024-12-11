@@ -7,10 +7,11 @@ import Link from 'next/link';
 interface CardFeedProps {
     id: number;
   poster_path?: string;
+  media_type:string
   isSkeleton?: boolean;
 }
 
-const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_path, isSkeleton = false }, ref) => {
+const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_path,media_type ,isSkeleton = false }, ref) => {
   const [isHover, setIsHover] = React.useState(false)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
@@ -29,6 +30,7 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_pa
       onMouseLeave={() => setIsHover(false)}
       className="relative w-[250px] my-5 ease-in-out duration-300"
     >
+      <div className='absolute px-2 rounded-xl m-1 bg-red'>{media_type}</div>
       {isHover && (
         <div className='absolute top-2 right-2'>
           {isFavorite ?

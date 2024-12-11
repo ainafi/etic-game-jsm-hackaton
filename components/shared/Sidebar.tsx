@@ -22,27 +22,39 @@ import { logout } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/hooks/use-toast'
 import { Button } from '../ui/button'
+import useGenre from '@/store/useGenre'
 
 interface Igenre{
   id:number
   name:string
 }
 const AppSidebar = () => {
+  const {genre}=useGenre()
   const [isSelected,setIsSelected]=useState("Genre")
   const router=useRouter()
   const {isLoading,data,error}=useQuery({
     queryKey:["genres"],
-    queryFn:()=>fetchData("genre/movie/list")
+    queryFn:()=>fetchData(`genre/${genre}/list`),
+    refetchInterval:100
   })
   if (isLoading) {
     return (
-      <SidebarMenu>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <SidebarMenuItem key={index}>
-            <SidebarMenuSkeleton showIcon />
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Genre</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <SidebarMenuItem key={index}>
+                    <SidebarMenuSkeleton showIcon />
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
     )
   }
   if (error) return <div>Error: {error.message}</div>
@@ -66,10 +78,10 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Genre</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.genres.map((genre:Igenre) => (
-                <SidebarMenuItem key={genre.id}>
+              {data.genres.map((genres:Igenre) => (
+                <SidebarMenuItem key={genres.id}>
                   <SidebarMenuButton asChild>
-                      <span onClick={()=>setIsSelected(genre.name)} className={`${isSelected === genre.name ? "bg-white text-black" : ""} cursor-pointer`}>{genre.name}</span>
+                      <span onClick={()=>setIsSelected(genres.name)} className={`${isSelected === genres.name ? "bg-white text-black" : ""} cursor-pointer`}>{genres.name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

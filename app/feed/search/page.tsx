@@ -27,16 +27,22 @@ const SearchPage = () => {
     enabled: !!search
   });
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return 
+  <div className='flex flex-wrap gap-4'>
+  {Array.from({ length: 10 }).map((_, index) => (
+    <CardFeed key={index} isSkeleton id={0} media_type={''} />
+  ))}
+</div>
   if (error) return <div>Error loading data</div>
   if (!data) return <div>No data found</div>
+  console.log(data.results)
 
   return (
     <div>
-      <h1>Results for &quot;{search}&quot;</h1>
+      <h1 className='text-2xl font-semibold'>Results for &quot;{search}&quot;</h1>
       <div className='flex flex-wrap gap-4'>
         {data.results.map((movie: Imovie) => (
-          <CardFeed key={movie.id} poster_path={movie.poster_path} id={movie.id} />
+          <CardFeed media_type={''} key={movie.id} {...movie} id={movie.id} />
         ))}
       </div>
     </div>

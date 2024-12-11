@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useCallback, useState } from 'react'
+import React, { useRef, useCallback } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchData } from '@/lib/fetchdata'
 import CardFeed from '@/components/shared/CardFeed'
@@ -12,15 +12,16 @@ import {
 import { Discover } from '@/constant'
 import { Button } from '@/components/ui/button'
 import { ChevronDown } from 'lucide-react'
+import useGenre from '@/store/useGenre'
 
 interface Imovie {
   id: number,
-  poster_path: string
+  poster_path: string,
+  media_type: string
 }
 
 const Feed = () => {
-  const [isDiscover, setIsDiscover] = useState("movie")
-
+  const {genre,setgenre}=useGenre()
   const {
     data,
     isLoading,
@@ -30,8 +31,8 @@ const Feed = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["discover", isDiscover],
-    queryFn: ({ pageParam = 1 }) => fetchData(`discover/${isDiscover}`, {
+    queryKey: ["discover", genre],
+    queryFn: ({ pageParam = 1 }) => fetchData(`discover/${genre}`, {
       include_adult: 'false',
       sort_by: 'popularity.desc',
       page: pageParam,
@@ -66,7 +67,7 @@ const Feed = () => {
     return (
       <div className='flex flex-wrap gap-4'>
         {Array.from({ length: 10 }).map((_, index) => (
-          <CardFeed key={index} isSkeleton id={0} />
+          <CardFeed key={index} isSkeleton id={0} media_type={''} />
         ))}
       </div>
     )
@@ -84,12 +85,12 @@ const Feed = () => {
           <DropdownMenu >
             <DropdownMenuTrigger className='w-full border-none'>
               <div className='flex items-center  justify-between capitalize'>
-                {isDiscover} <ChevronDown /> 
+                {genre} <ChevronDown /> 
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {Discover.map((item) => (
-                <DropdownMenuItem key={item.id} onClick={() => setIsDiscover(item.name)}>
+                <DropdownMenuItem key={item.id} onClick={() => setgenre(item.name)}>
                   {item.name}
                 </DropdownMenuItem>
               ))}
@@ -103,6 +104,7 @@ const Feed = () => {
             const isLastMovie = pageIndex === data.pages.length - 1 && movieIndex === page.results.length - 1
             return (
               <CardFeed
+                media_type={movie.media_type}
                 ref={isLastMovie ? lastMovieElementRef : null}
                 key={movie.id}
                 poster_path={movie.poster_path} id={0}/>
