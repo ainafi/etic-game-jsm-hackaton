@@ -93,7 +93,7 @@ export async function getCurrentUser() {
     useAuthStore.getState().setUser(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {
-    console.error("Error getting current user:", error);
+    // console.error("Error getting current user:", error);
     throw error;
   }
 }

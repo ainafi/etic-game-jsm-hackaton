@@ -1,8 +1,17 @@
 "use client"
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useState } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchData } from '@/lib/fetchdata'
 import CardFeed from '@/components/shared/CardFeed'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Discover } from '@/constant'
+import { Button } from '@/components/ui/button'
+import { ChevronDown } from 'lucide-react'
 
 interface Imovie {
   id: number,
@@ -10,8 +19,10 @@ interface Imovie {
 }
 
 const Feed = () => {
+  const [isDiscover, setIsDiscover] = useState("movie")
+
   const {
-    data, 
+    data,
     isLoading,
     error,
     fetchNextPage,
@@ -19,11 +30,12 @@ const Feed = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["movie"],
-    queryFn: ({ pageParam = 1 }:{pageParam?:number}) => fetchData("discover/movie", {
+    queryKey: ["discover", isDiscover],
+    queryFn: ({ pageParam = 1 }) => fetchData(`discover/${isDiscover}`, {
       include_adult: 'false',
       sort_by: 'popularity.desc',
       page: pageParam,
+      language: 'en-US'
     }),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total_pages) {
@@ -65,19 +77,41 @@ const Feed = () => {
   }
 
   return (
-    <div className='flex flex-wrap gap-4 justify-center md:justify-normal'>
-      {data?.pages.map((page, pageIndex) =>
-        page.results.map((movie: Imovie, movieIndex: number) => {
-          if (pageIndex === data.pages.length - 1 && movieIndex === page.results.length - 1) {
+    <div>
+      <div>
+        <Button  className='md:w-[100px] mt-5 w-full bg-transparent border-white border capitalize'>
+
+          <DropdownMenu >
+            <DropdownMenuTrigger className='w-full border-none'>
+              <div className='flex items-center  justify-between capitalize'>
+                {isDiscover} <ChevronDown /> 
+
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {Discover.map((item) => (
+                <DropdownMenuItem key={item.id} onClick={() => setIsDiscover(item.name)}>
+                  {item.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Button>
+      </div>
+      <div className='flex flex-wrap gap-4 justify-center md:justify-normal'>
+        {data?.pages.map((page, pageIndex) =>
+          page.results.map((movie: Imovie, movieIndex: number) => {
+            const isLastMovie = pageIndex === data.pages.length - 1 && movieIndex === page.results.length - 1
             return (
-              <CardFeed ref={lastMovieElementRef} key={movie.id} {...movie} />
+              <CardFeed
+                ref={isLastMovie ? lastMovieElementRef : null}
+                key={movie.id}
+                poster_path={movie.poster_path} id={0}/>
             )
-          } else {
-            return <CardFeed key={movie.id} {...movie} />
-          }
-        })
-      )}
-      {isFetchingNextPage && <div className='text-center'>Loading more...</div>}
+          })
+        )}
+        {isFetchingNextPage && <div className='text-center'>Loading more...</div>}
+      </div>
     </div>
   )
 }
