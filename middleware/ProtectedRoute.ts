@@ -14,17 +14,22 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        await getCurrentUser();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error:any) {
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          useAuthStore.getState().setUser(currentUser);
+          router.push('/feed');
+        }
+      } catch (error) {
         console.log(error)
         router.push('/sign-in');
-        return toast({ title: "Please connect to your account", variant: "destructive" });
+        toast({ title: "Please connect to your account", variant: "destructive" });
       }
     };
 
-    checkUser();
-  }, [router]);
+    if (!user) {
+      checkUser();
+    }
+  }, [router, user]);
 
   useEffect(() => {
     if (!isOnline) {

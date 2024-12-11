@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from 'next/link';
+import useCheckSession from '@/hooks/useCheckSession'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -29,6 +30,7 @@ const formSchema = z.object({
 });
 
 const SignIn = () => {
+  useCheckSession();
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);

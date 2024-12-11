@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react"
+import useCheckSession from '@/hooks/useCheckSession';
 import {
   Form,
   FormControl,
@@ -29,6 +30,7 @@ const formSchema = z.object({
 });
 
 const SignUp = () => {
+  useCheckSession();
   const { toast } = useToast()
   const [isLoading, setIsLoading] = React.useState(false);
   const router=useRouter()
@@ -52,11 +54,8 @@ const SignUp = () => {
         toast({title:"sign In failed try again",variant:"destructive"})
         return ;
       }
-
-
-      setTimeout(() => {
         router.push("/feed")
-      },2000)
+  
     } catch (error) {
       return toast({title:"sign up failed try again",variant:"destructive"})
       console.error(error);
