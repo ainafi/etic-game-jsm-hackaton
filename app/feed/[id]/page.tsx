@@ -7,6 +7,7 @@ import Image from 'next/image';
 import React from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Recommendation from '@/components/shared/Recommendation';
 // Define the type for movie data
 interface Genre{
   id:string;
@@ -80,7 +81,7 @@ const MovieDetails: React.FC = () => {
               </div>
               <div className='flex gap-2 flex-wrap'>
                   {movie.genres.map((genre:Genre)=>(
-                    <div key={genre.id} className=' bg-gray-700 p-2 rounded-3xl capitalize px-3'>
+                    <div key={genre.id} className=' bg-gray-700 p-2 rounded-3xl capitalize px-3 md:text-center flex items-center'>
                         <span >{genre.name}</span>
                     </div>
                   ))}
@@ -89,12 +90,12 @@ const MovieDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='mt-[290px]'>
+      <div className='mt-[290px] md:mt-[300px] lg:mt-[350px]'>
         <div>
           <h2 className='text-2xl'>Overview</h2>
           <p className='text-gray-500'>{movie.overview}</p>
         </div>
-        
+        <Recommendation id={id} />
       </div>
     </div>
   );

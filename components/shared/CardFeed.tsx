@@ -9,9 +9,11 @@ interface CardFeedProps {
   poster_path?: string;
   media_type:string
   isSkeleton?: boolean;
+  backdrop_path?:string;
+  isLoading?:boolean;
 }
 
-const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_path,media_type ,isSkeleton = false }, ref) => {
+const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,backdrop_path,poster_path,media_type ,isSkeleton = false }, ref) => {
   const [isHover, setIsHover] = React.useState(false)
   const [isFavorite, setIsFavorite] = React.useState(false)
   if (isSkeleton) {
@@ -38,13 +40,13 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_pa
           }
         </div>
       )}
-      <Image className='rounded-xl' src={`https://image.tmdb.org/t/p/w500/${poster_path}`} width={250} height={375} alt="movie poster" />
+      <Image className='rounded-xl' src={`https://image.tmdb.org/t/p/w500/${poster_path || backdrop_path}`} width={250} height={375} alt="movie poster" />
 
       {isHover && (
         <div className="absolute -bottom-11 rounded-xl left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/50 p-2 w-full">
-          <Button  className='w-[220px] mb-1 bg-transparent border capitalize font-semibold text-white'>
+          <Button   className='w-[220px] mb-1 bg-transparent border capitalize font-semibold text-white'>
             <Link href={`/feed/${id}`}>details</Link>
-            details
+            
           </Button>
           <Button className='w-[220px] mt-1 capitalize font-semibold text-white'>order</Button>
         </div>

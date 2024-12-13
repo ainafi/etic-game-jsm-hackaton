@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+// import { persist } from 'zustand/middleware';
 
 interface AuthState {
   user: null;
@@ -8,17 +8,10 @@ interface AuthState {
   clearUser: () => void;
 }
 
-const useAuthStore = create<AuthState>()(
-    persist(
-        (set) => ({
+const useAuthStore =create<AuthState>((set) => ({
             user: null,
             setUser: (user) => set({ user }),
             clearUser: () => set({ user: null }),
-        }),
-        {
-            name: 'auth-storage',
-        }
-    )
-);
+}))
 
 export default useAuthStore;
