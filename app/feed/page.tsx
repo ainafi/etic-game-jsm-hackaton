@@ -105,14 +105,12 @@ const Feed = () => {
             
             return (
               <>
-
                 <CardFeed
                   media_type={movie.media_type}
                   ref={isLastMovie ? lastMovieElementRef : null}
                   key={movie.id}
                   isLoading={isLoading}
                   poster_path={movie.poster_path} id={movie.id}/>
-              
               </>
             )
           })

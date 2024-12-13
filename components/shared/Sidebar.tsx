@@ -57,6 +57,8 @@ const AppSidebar = () => {
       </Sidebar>
     )
   }
+  
+
   if (error) return <div>Error: {error.message}</div>
   const handleLogout=async ()=>{
     try {
@@ -79,6 +81,7 @@ const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               {data.genres.map((genres:Igenre) => (
+                
                 <SidebarMenuItem key={genres.id}>
                   <SidebarMenuButton asChild>
                       <span onClick={()=>setIsSelected(genres.name)} className={`${isSelected === genres.name ? "bg-white text-black" : ""} cursor-pointer`}>{genres.name}</span>
