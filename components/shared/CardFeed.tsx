@@ -14,7 +14,6 @@ interface CardFeedProps {
 const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_path,media_type ,isSkeleton = false }, ref) => {
   const [isHover, setIsHover] = React.useState(false)
   const [isFavorite, setIsFavorite] = React.useState(false)
-
   if (isSkeleton) {
     return (
       <div ref={ref} className="relative w-[250px] my-5 ease-in-out duration-300 animate-pulse">
@@ -22,7 +21,6 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_pa
       </div>
     )
   }
-
   return (
     <div
       ref={ref}
@@ -44,8 +42,9 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(({ id,poster_pa
 
       {isHover && (
         <div className="absolute -bottom-11 rounded-xl left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/50 p-2 w-full">
-          <Button className='w-[220px] mb-1 bg-transparent border capitalize font-semibold text-white'>
-            <Link href={`/movie/${id}`}>details</Link>
+          <Button  className='w-[220px] mb-1 bg-transparent border capitalize font-semibold text-white'>
+            <Link href={`/feed/${id}`}>details</Link>
+            details
           </Button>
           <Button className='w-[220px] mt-1 capitalize font-semibold text-white'>order</Button>
         </div>

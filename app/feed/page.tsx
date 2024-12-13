@@ -102,12 +102,17 @@ const Feed = () => {
         {data?.pages.map((page, pageIndex) =>
           page.results.map((movie: Imovie, movieIndex: number) => {
             const isLastMovie = pageIndex === data.pages.length - 1 && movieIndex === page.results.length - 1
+            
             return (
-              <CardFeed
-                media_type={movie.media_type}
-                ref={isLastMovie ? lastMovieElementRef : null}
-                key={movie.id}
-                poster_path={movie.poster_path} id={0}/>
+              <>
+
+                <CardFeed
+                  media_type={movie.media_type}
+                  ref={isLastMovie ? lastMovieElementRef : null}
+                  key={movie.id}
+                  poster_path={movie.poster_path} id={movie.id}/>
+              
+              </>
             )
           })
         )}
