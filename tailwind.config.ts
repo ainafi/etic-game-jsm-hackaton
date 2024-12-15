@@ -12,6 +12,7 @@ export default {
   		colors: {
   			dark: '#1E1E1E',
   			red: '#B8001F',
+			success:'#28a745',
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',

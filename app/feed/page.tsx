@@ -17,7 +17,8 @@ import useGenre from '@/store/useGenre'
 interface Imovie {
   id: number,
   poster_path: string,
-  media_type: string
+  media_type: string,
+  title: string
 }
 
 const Feed = () => {
@@ -67,7 +68,7 @@ const Feed = () => {
     return (
       <div className='flex flex-wrap gap-4'>
         {Array.from({ length: 10 }).map((_, index) => (
-          <CardFeed isLoading key={index} isSkeleton id={0} media_type={''} />
+          <CardFeed isLoading key={index} isSkeleton id={0} media_type={''} title={''} price={0} />
         ))}
       </div>
     )
@@ -106,11 +107,12 @@ const Feed = () => {
             return (
               <>
                 <CardFeed
+                  
                   media_type={movie.media_type}
                   ref={isLastMovie ? lastMovieElementRef : null}
                   key={movie.id}
                   isLoading={isLoading}
-                  poster_path={movie.poster_path} id={movie.id}/>
+                  poster_path={movie.poster_path} id={movie.id} title={movie.title} price={0}/>
               </>
             )
           })
