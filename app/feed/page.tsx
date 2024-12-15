@@ -18,7 +18,8 @@ interface Imovie {
   id: number,
   poster_path: string,
   media_type: string,
-  title: string
+  title: string |undefined,
+  name?: string
 }
 
 const Feed = () => {
@@ -48,7 +49,7 @@ const Feed = () => {
     },
     initialPageParam: 1
   })
-
+  
   const observer = useRef<IntersectionObserver | null>(null)
   const lastMovieElementRef = useCallback(
     (node: HTMLDivElement) => {
@@ -77,7 +78,7 @@ const Feed = () => {
   if (status === 'error') {
     return <div>Error: {error.message}</div>
   }
-
+  console.log(data)
   return (
     <div>
       <div>
@@ -112,7 +113,7 @@ const Feed = () => {
                   ref={isLastMovie ? lastMovieElementRef : null}
                   key={movie.id}
                   isLoading={isLoading}
-                  poster_path={movie.poster_path} id={movie.id} title={movie.title} price={0}/>
+                  poster_path={movie.poster_path} id={movie.id}title={movie.title?.toString() ?? movie.name ?? ''} price={0}/>
               </>
             )
           })

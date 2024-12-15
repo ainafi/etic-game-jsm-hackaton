@@ -60,7 +60,7 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(
             </Button>
             <Button onClick={handleAddToCart} className='w-[220px] mt-1 capitalize font-semibold text-white'>
               <ShoppingCart className="w-4 h-4 mr-2" />
-              Add to cart
+              <span>Add to cart</span>
             </Button>
           </div>
         )}

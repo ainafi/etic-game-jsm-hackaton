@@ -50,11 +50,18 @@ export async function saveUserToDb(user: { email: string; password: string; prof
 
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    console.log("Signing in user with email:", user.email); // Debug
+
+    try {
+       await account.getSession('current');
+      await account.deleteSession('current');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      console.log("No active session found, proceeding to sign in");
+    }
     await account.createEmailPasswordSession(user.email, user.password);
     const currentUser = await account.get();
 
-    console.log("User signed in successfully:", currentUser); // Debug
+    console.log("User signed in successfull// If there is no active session, we can safely ignore the errory:", currentUser); // Debug
     useAuthStore.getState().setUser(currentUser);
     return currentUser;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -82,18 +89,18 @@ export async function getCurrentUser() {
     const currentAccount = await account.get();
     if (!currentAccount) throw new Error('No current account found');
 
-    console.log("Current account:", currentAccount); // Debug
+    console.log("Current account:", currentAccount);
     const currentUser = await databases.listDocuments(
       databasesId,
       userCollectionIds,
       [Query.equal('email', currentAccount.email)]
     );
 
-    console.log("Current user data from database:", currentUser); // Debug
+    console.log("Current user data from database:", currentUser);
     useAuthStore.getState().setUser(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {
-    // console.error("Error getting current user:", error);
+    console.error("Error getting current user:", error);
     throw error;
   }
 }
