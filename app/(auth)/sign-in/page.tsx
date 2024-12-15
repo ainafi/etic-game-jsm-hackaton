@@ -52,7 +52,7 @@ const SignIn = () => {
         return;
       }
       toast({ title: "Sign In success", variant: "default" });
-      router.push("/feed")
+      router.push("/movie/feed")
     } catch (error) {
       toast({ title: "Sign In failed, try again", variant: "destructive" });
       console.error("Error during sign in:", error); // Debug
