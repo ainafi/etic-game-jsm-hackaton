@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/t/p/w500/**', // Adjust this to match the image path structure
       },
+      {
+        protocol: 'https',
+        hostname: 'media.rawg.io',
+        port: '',
+        pathname: '/media/**', // Adjust this to match the image path structure
+      },
     ],
   },
 };

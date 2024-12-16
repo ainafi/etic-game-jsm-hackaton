@@ -14,7 +14,7 @@ const useCheckSession = () => {
         const currentUser = await getCurrentUser();
         if (currentUser) {
           useAuthStore.getState().setUser(currentUser);
-          router.push('/feed');
+          router.push('/movie/feed');
         }
       } catch (error) {
         console.error("No existing session found", error);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { fetchData } from '@/lib/fetchdata'
+
 interface Igenre{
     id:number
     name:string
@@ -14,11 +14,12 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import { Button } from '../ui/button'
+import { fetchDataGame } from '@/lib/fetchGame'
 const MobileNav = () => {
     const [isSelected,setIsSelected]=useState("Genre")
     const {isLoading,data,error}=useQuery({
         queryKey:["genres"],
-        queryFn:()=>fetchData("genre/movie/list")
+        queryFn:()=>fetchDataGame("genres")
       })
       if(isLoading){
         return <div>Loading</div>
@@ -35,7 +36,7 @@ const MobileNav = () => {
             <DropdownMenuContent className='w-full'>
                 <DropdownMenuLabel>Genre</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {data.genres.map((genre:Igenre)=>{
+                {data.results.map((genre:Igenre)=>{
                     return <DropdownMenuItem onClick={()=>setIsSelected(genre.name)} key={genre.id}>{genre.name}</DropdownMenuItem>
                 })}
             </DropdownMenuContent>
