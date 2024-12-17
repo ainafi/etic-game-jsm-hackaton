@@ -9,7 +9,14 @@ export default {
   ],
   theme: {
   	extend: {
+		backgroundImage: {
+			'hero-pattern': "url('/image/bg-hero.png')",
+			'stat-pattern': "url('/image/bg-card.png')",
+		  },
   		colors: {
+			background:"#07091B",
+			primary:"#22274A",
+			secondary:"#405FBA",
   			dark: '#1E1E1E',
   			red: '#B8001F',
 			success:'#28a745',
