@@ -38,6 +38,7 @@ const Navbar = () => {
   }
 
   return (
+    
     <div className='flex items-center justify-center relative'>
       <div>
         <Form {...form}>

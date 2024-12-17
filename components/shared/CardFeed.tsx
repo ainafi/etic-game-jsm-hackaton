@@ -55,7 +55,7 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(
 
         {isHover && (
           <div className="absolute -bottom-11 rounded-xl left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/50 p-2 w-full">
-            <Link href={`/feed/${id}`}>
+            <Link href={`/movie/feed/${id}`}>
               <Button className='w-[220px] hover:bg-transparent mb-1 bg-transparent border capitalize font-semibold text-white'>
                 details
               </Button>
