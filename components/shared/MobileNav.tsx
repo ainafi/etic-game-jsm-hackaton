@@ -27,6 +27,7 @@ const MobileNav = () => {
       if(error){
         return <div>Error</div>
       }
+      console.log(data)
   return (
     <div>
         <DropdownMenu>
@@ -36,7 +37,7 @@ const MobileNav = () => {
             <DropdownMenuContent className='w-full'>
                 <DropdownMenuLabel>Genre</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {data.results.map((genre:Igenre)=>{
+                {data.genres.map((genre:Igenre)=>{
                     return <DropdownMenuItem onClick={()=>setIsSelected(genre.name)} key={genre.id}>{genre.name}</DropdownMenuItem>
                 })}
             </DropdownMenuContent>

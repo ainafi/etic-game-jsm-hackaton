@@ -55,9 +55,11 @@ const CardFeed = React.forwardRef<HTMLDivElement, CardFeedProps>(
 
         {isHover && (
           <div className="absolute -bottom-11 rounded-xl left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/50 p-2 w-full">
-            <Button className='w-[220px] mb-1 bg-transparent border capitalize font-semibold text-white'>
-              <Link href={`/feed/${id}`}>details</Link>
-            </Button>
+            <Link href={`/feed/${id}`}>
+              <Button className='w-[220px] hover:bg-transparent mb-1 bg-transparent border capitalize font-semibold text-white'>
+                details
+              </Button>
+            </Link>
             <Button onClick={handleAddToCart} className='w-[220px] mt-1 capitalize font-semibold text-white'>
               <ShoppingCart className="w-4 h-4 mr-2" />
               <span>Add to cart</span>
