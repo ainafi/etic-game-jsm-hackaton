@@ -30,3 +30,9 @@ export const Categories=[
         image:movie
     },
 ]
+
+export const Stat=[
+    {id:1,count:"5k",name:"movie"},
+    {id:2,count:"2k",name:"game mulit platform"},
+    {id:3,count:"3k",name:"anime"},
+]
