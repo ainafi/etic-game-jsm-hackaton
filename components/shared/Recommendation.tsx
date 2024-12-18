@@ -23,7 +23,7 @@ const Recommendation = ({id}:{id:string}) => {
         return (
           <div className='flex flex-wrap gap-4'>
             {Array.from({ length: 10 }).map((_, index) => (
-              <CardFeed isLoading key={index} isSkeleton id={0} media_type={''} />
+              <CardFeed isLoading key={index} isSkeleton id={0} media_type={''} title={''} price={0} />
             ))}
           </div>
         )
@@ -42,7 +42,7 @@ const Recommendation = ({id}:{id:string}) => {
             <CarouselContent>
                 {data?.results.map((movie:CardFeedProps)=>(
                     <CarouselItem  key={movie.id} className="basis-1/2 md:basis-1/3 lg:basis-1/6 mr-5">
-                        <CardFeed isLoading key={movie.id} id={movie.id} media_type={movie.media_type} backdrop_path={movie.backdrop_path} />
+                        <CardFeed isLoading key={movie.id} id={movie.id} media_type={movie.media_type} backdrop_path={movie.backdrop_path} title={''} price={0} />
                     </CarouselItem>
                 
                 ))}
