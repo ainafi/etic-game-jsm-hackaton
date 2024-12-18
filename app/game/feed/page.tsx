@@ -1,22 +1,47 @@
 "use client"
 import CardGame from '@/components/shared/CardGame'
+import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '@/components/ui/skeleton'
 import { fetchDataGame } from '@/lib/fetchGame'
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
-interface GameCardProps{
-    id:string,
-    background_image: string;
-    image:string,   
-    platforms:string[],
-    name:string
+import { StaticImport } from 'next/dist/shared/lib/get-img-props'
+interface PlatformDetails {
+  image_background: string | StaticImport;
+  id: number;
+  name: string;
 }
+interface Platform {
+  platform: PlatformDetails;
+}
+interface GameCardProps {
+  id: string;
+  background_image: string;
+  platforms: Platform[];
+  name: string;
+}
+interface GameData {
+  id: string;
+  background_image: string;
+  image: string;
+  platforms: string[];
+  name: string;
+}
+
 const GameFeed = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["games"],
     queryFn: () => fetchDataGame("games")
-  })
-  console.log(data)
+  });
+
+  const transformPlatforms = (platforms: string[]): Platform[] => {
+    return platforms.map((platformName, index) => ({
+      platform: {
+        image_background: '', // Add appropriate image background or leave empty
+        id: index,            // Use a unique identifier or fetch from a reliable source
+        name: platformName,
+      }
+    }));
+  };
+
   if (isLoading) {
     return (
       <div className='flex flex-wrap gap-4'>
@@ -47,24 +72,29 @@ const GameFeed = () => {
           </div>
         ))}
       </div>
-    )
+    );
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Error: {error.message}</div>;
   }
 
   return (
     <div className='flex flex-wrap gap-4'>
-      {data.results.map((game:GameCardProps) => (
-        <div key={game.id}>
-            <CardGame {...game}  />
+      {data.results.map((game: GameData) => {
+        const transformedGame: GameCardProps = {
+          ...game,
+          platforms: transformPlatforms(game.platforms)
+        };
 
-        </div>
-          
-      ))}
+        return (
+          <div key={game.id}>
+            <CardGame {...transformedGame} />
+          </div>
+        );
+      })}
     </div>
-  )
+  );
 }
 
 export default GameFeed
