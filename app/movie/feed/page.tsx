@@ -82,7 +82,6 @@ const Feed = () => {
     <div>
       <div>
         <Button  className='md:w-[100px] mt-5 w-full bg-transparent border-white border capitalize'>
-
           <DropdownMenu >
             <DropdownMenuTrigger className='w-full border-none'>
               <div className='flex items-center  justify-between capitalize'>

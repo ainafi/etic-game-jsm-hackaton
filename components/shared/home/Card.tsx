@@ -12,7 +12,7 @@ const Card = ({link,image}:ICard) => {
   return (
     <>
 
-        <div className='bg-white w-[100px] md:w-[300px] md:h-[420px] h-[170px] p-2 rounded-2xl'>
+        <div className='bg-white w-[100px] md:w-[200px] md:h-[300px] lg:w-[300px] lg:h-[420px] h-[170px] p-2 rounded-2xl'>
             <Image className='w-[300px]' src={image} width={100} height={300} alt={"image"}/>
             <div className='pt-3'>
                 <Link href={`/${link}`}>
