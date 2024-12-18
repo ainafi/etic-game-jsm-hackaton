@@ -86,10 +86,10 @@ const Trend = () => {
 
   if (error) return <div>Error: {error.message}</div>
   return (
-    <div className='py-5 px-3'>
+    <div className='py-5 px-3 pt-16'>
       <h2 className='font-bold text-xl md:text-3xl text-white'>Trend <span className='text-secondary'>Movie</span></h2>
       <div className='my-3'>
-        <button className='border border-white text-white px-3 rounded-md'>
+        <button className='border border-white text-white py-3 px-5 rounded-md'>
           <DropdownMenu>
             <DropdownMenuTrigger className='w-full border-none'>
               <div className='flex items-center justify-between capitalize'>

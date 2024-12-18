@@ -12,6 +12,7 @@ export default {
 		backgroundImage: {
 			'hero-pattern': "url('/image/bg-hero.png')",
 			'stat-pattern': "url('/image/bg-card.png')",
+			'bento':"url('/image/bg-bento.png')",
 		  },
   		colors: {
 			background:"#07091B",
