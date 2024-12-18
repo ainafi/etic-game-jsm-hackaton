@@ -30,7 +30,7 @@ const SearchPage = () => {
   if (isLoading) return 
   <div className='flex flex-wrap gap-4'>
   {Array.from({ length: 10 }).map((_, index) => (
-    <CardFeed key={index} isSkeleton id={0} media_type={''} />
+    <CardFeed key={index} isSkeleton id={0} media_type={''} title={''} price={0} />
   ))}
 </div>
   if (error) return <div>Error loading data</div>
@@ -42,7 +42,7 @@ const SearchPage = () => {
       <h1 className='text-2xl font-semibold'>Results for &quot;{search}&quot;</h1>
       <div className='flex flex-wrap gap-4'>
         {data.results.map((movie: Imovie) => (
-          <CardFeed media_type={''} key={movie.id} {...movie} id={movie.id} />
+          <CardFeed title={''} price={0} media_type={''} key={movie.id} {...movie} id={movie.id} />
         ))}
       </div>
     </div>
