@@ -9,7 +9,7 @@ const Header = () => {
       <div className='max-w-[1400px] mx-auto  px-2'>
         <Navbar/>
         <div className="container mx-auto px-4 pt-16 text-center">
-        <h1 className="text-3xl md:text-6xl font-bold text-white mb-4">
+        <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-4">
           Access Always Up-to-date<br />
           <span className="">
             <FlipWords className='text-secondary' words={words} /> 
@@ -26,7 +26,7 @@ const Header = () => {
           
           <div className="relative flex flex-col md:flex-row justify-center items-center gap-8 mb-16">
             {/* Movie Card */}
-            <div className="w-64 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
+            <div className="w-52 md:w-64 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
               <div className="aspect-[9/16] relative bg-[#1a0b2e] rounded-2xl overflow-hidden flex items-center justify-center">
                 <div className="text-3xl font-bold" style={{
                   background: 'linear-gradient(to bottom, #ff00cc, #3333cc)',
@@ -42,7 +42,7 @@ const Header = () => {
             </div>
 
             {/* Game Card */}
-            <div className="w-72 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
+            <div className="w-52 md:w-72 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
               <div className="aspect-[9/16] relative bg-[#1a0b2e] rounded-2xl overflow-hidden flex items-center justify-center ">
                 <div className="text-3xl font-bold" style={{
                     background: 'linear-gradient(to bottom, #405FBA, #1D2B54)',
@@ -58,7 +58,7 @@ const Header = () => {
             </div>
 
             {/* Anime Card */}
-            <div className="w-64 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
+            <div className="w-52 md:w-64 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
               <div className="aspect-[9/16] relative bg-[#1a0b2e] rounded-2xl overflow-hidden flex items-center justify-center">
                 <div className="text-4xl font-bold text-white">
                   ANIME

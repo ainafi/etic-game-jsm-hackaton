@@ -4,21 +4,17 @@ import Image from 'next/image'
 
 const faqData = [
   {
-    question: "What is your return policy?",
-    answer: "We offer a 30-day return policy for all unused items in their original packaging. Please contact our customer service team to initiate a return."
+    question: "What are the service of Etic-store",
+    answer: "sale of movie, series video games multi platform"
   },
   {
-    question: "How long does shipping take?",
-    answer: "Shipping times vary depending on your location. Typically, domestic orders are delivered within 3-5 business days, while international orders may take 7-14 business days."
+    question: "Where is Etic store located",
+    answer: "Anosizato West "
   },
   {
-    question: "Do you offer international shipping?",
-    answer: "Yes, we ship to most countries worldwide. Shipping costs and delivery times may vary based on the destination."
+    question: "availability time",
+    answer: "Monday-Saturday 8Am-8Pm Sunday 8Am -6Pm" 
   },
-  {
-    question: "How can I track my order?",
-    answer: "Once your order is shipped, you'll receive a tracking number via email. You can use this number to track your package on our website or the carrier's site."
-  }
 ]
 
 export function FAQ() {

@@ -20,7 +20,7 @@ export default function Footer() {
             Create your account
           </h2>
           <p className="text-gray-400 mb-8">
-            Celebrate the joy of accomplishment with an app designed to track your progress and motivate your efforts.
+            Start your Order
           </p>
           <Link href="/sign-up">
             <Button className="bg-primary hover:bg-red-700 text-white px-8 py-2 rounded-md">
