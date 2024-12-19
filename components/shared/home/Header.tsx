@@ -9,14 +9,14 @@ const Header = () => {
       <div className='max-w-[1400px] mx-auto  px-2'>
         <Navbar/>
         <div className="container mx-auto px-4 pt-16 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+        <h1 className="text-3xl md:text-6xl font-bold text-white mb-4">
           Access Always Up-to-date<br />
           <span className="">
             <FlipWords className='text-secondary' words={words} /> 
             </span> Catalogs
         </h1>
         <p className="text-gray-400 mb-16">
-          Dream Big with Movies at Only Ar400 – Start Your Order
+          Dream Big with Movies at Only 400 MGA – Start Your Order
         </p>
 
         {/* Cards Section */}

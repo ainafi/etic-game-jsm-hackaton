@@ -10,7 +10,7 @@ const Navbar = () => {
             <Link href={"/"}>
                 <Image src={"/image/logo.png"} width={70} height={100} alt='logo'/>
             </Link>
-            <h2 className='font-bold text-white'>Etic <span className='text-secondary'>Game</span></h2>
+            <h2 className='font-bold text-white'>Etic <span className='text-secondary'>Store</span></h2>
         </div>
         <Link href={"/sign-up"}>
             <Button className='bg-primary rounded-xl'>Signup</Button>
