@@ -1,9 +1,9 @@
-import React from 'react'
-import Image from 'next/image'
-import { PlaySquare } from 'lucide-react'
-import { Card } from "@/components/ui/card"
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
-
+import React from 'react';
+import Image from 'next/image';
+import { PlaySquare } from 'lucide-react';
+import { Card } from "@/components/ui/card";
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+// import { StaticImport } from 'next/dist/shared/lib/get-img-props";
 
 // Defining the interfaces for props
 interface GameCardProps {
@@ -72,7 +72,7 @@ const CardGame: React.FC<GameCardProps> = ({ background_image, name, platforms }
         </div>
       </Card>
     </div>
-  )
+  );
 }
 
-export default CardGame
+export default CardGame;

@@ -52,7 +52,7 @@ const SignIn = () => {
         return;
       }
       toast({ title: "Sign In success", variant: "default" });
-      router.push("/movie/feed")
+      router.push("/discover")
     } catch (error) {
       toast({ title: "Sign In failed, try again", variant: "destructive" });
       console.error("Error during sign in:", error); // Debug
@@ -74,7 +74,7 @@ const SignIn = () => {
               <FormItem>
                 <FormLabel className='text-white capitalize'>Email</FormLabel>
                 <FormControl>
-                  <Input className='w-[300px]' placeholder="Your email" {...field} />
+                  <Input className='w-[300px] text-white' placeholder="Your email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +87,7 @@ const SignIn = () => {
               <FormItem>
                 <FormLabel className='text-white'>Password</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder="Your password" {...field} />
+                  <Input type='password' className='text-white' placeholder="Your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

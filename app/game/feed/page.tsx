@@ -1,27 +1,31 @@
-"use client"
-import CardGame from '@/components/shared/CardGame'
-import { useQuery } from '@tanstack/react-query'
-import { Skeleton } from '@/components/ui/skeleton'
-import { fetchDataGame } from '@/lib/fetchGame'
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
+"use client";
+import React from 'react';
+import CardGame from '@/components/shared/CardGame';
+import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from '@/components/ui/skeleton';
+import { fetchDataGame } from '@/lib/fetchGame';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+
 interface PlatformDetails {
   image_background: string | StaticImport;
   id: number;
   name: string;
 }
+
 interface Platform {
   platform: PlatformDetails;
 }
+
 interface GameCardProps {
   id: string;
   background_image: string;
   platforms: Platform[];
   name: string;
 }
+
 interface GameData {
   id: string;
   background_image: string;
-  image: string;
   platforms: string[];
   name: string;
 }
@@ -97,4 +101,4 @@ const GameFeed = () => {
   );
 }
 
-export default GameFeed
+export default GameFeed;

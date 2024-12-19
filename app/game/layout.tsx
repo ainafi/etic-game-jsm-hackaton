@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {  SidebarTrigger } from "@/components/ui/sidebar"
 // import ProtectedRoute from "@/middleware/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import MobileNav from "@/components/shared/MobileNav";
 import Navbar from "@/components/shared/Navbar";
 import OrderCard from "@/components/shared/OrderCard";
 import GameSidebar from "@/components/shared/GameSidebar";
@@ -43,9 +42,9 @@ export default function GameFeedLayout({ children }: { children: React.ReactNode
                     <OrderCard/>
                   </div>
                 </nav>
-                <div className="lg:hidden">
+                {/* <div className="lg:hidden">
                   <MobileNav/>
-                </div>
+                </div> */}
                   {children}
                 </div>
             </div>

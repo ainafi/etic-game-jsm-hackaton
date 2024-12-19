@@ -54,7 +54,7 @@ const SignUp = () => {
         toast({title:"sign In failed try again",variant:"destructive"})
         return ;
       }
-        router.push("/movie/feed")
+        router.push("/discover")
   
     } catch (error) {
       return toast({title:"sign up failed try again",variant:"destructive"})

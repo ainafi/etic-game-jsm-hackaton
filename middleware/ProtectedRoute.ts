@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         const currentUser = await getCurrentUser();
         if (currentUser) {
           useAuthStore.getState().setUser(currentUser);
-          router.push('/movie/feed');
+          router.push('/discover');
         }
       } catch (error) {
         console.log(error)
