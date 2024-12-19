@@ -19,7 +19,7 @@ import { User2, ChevronUp } from 'lucide-react'
 import { logout } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/hooks/use-toast'
-import { fetchDataGame } from '@/lib/fetchGame'
+import { fetchGame } from '@/lib/fetchGame'
 import { Button } from '../ui/button'
 
 interface IGenre {
@@ -32,10 +32,9 @@ const GameSidebar = () => {
   const router = useRouter()
   const { isLoading, data, error } = useQuery({
     queryKey: ["genres"],
-    queryFn: () => fetchDataGame(`genres`),
+    queryFn: () => fetchGame(`genres`),
     refetchInterval: 100
   })
-
   if (isLoading) {
     return (
       <Sidebar>

@@ -1,50 +1,54 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from 'react';
-import CardGame from '@/components/shared/CardGame';
-import { useQuery } from '@tanstack/react-query';
+import React, { useRef, useCallback } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchDataGame } from '@/lib/fetchGame';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import CardGame from '@/components/shared/CardGame';
 
-interface PlatformDetails {
-  image_background: string | StaticImport;
-  id: number;
-  name: string;
-}
-
-interface Platform {
-  platform: PlatformDetails;
-}
-
-interface GameCardProps {
+interface Igame {
   id: string;
   background_image: string;
-  platforms: Platform[];
   name: string;
-}
-
-interface GameData {
-  id: string;
-  background_image: string;
-  platforms: string[];
-  name: string;
+  page: number;
 }
 
 const GameFeed = () => {
-  const { data, isLoading, error } = useQuery({
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["games"],
-    queryFn: () => fetchDataGame("games")
+    queryFn: ({ pageParam = 1 }) => fetchDataGame("games", pageParam),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.next) {
+        const url = new URL(lastPage.next);
+        return parseInt(url.searchParams.get('page') || '1', lastPage);
+      } else {
+        return undefined;
+      }
+    },
+    initialPageParam: 1, // Added missing initialPageParam
   });
 
-  const transformPlatforms = (platforms: string[]): Platform[] => {
-    return platforms.map((platformName, index) => ({
-      platform: {
-        image_background: '', // Add appropriate image background or leave empty
-        id: index,            // Use a unique identifier or fetch from a reliable source
-        name: platformName,
-      }
-    }));
-  };
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastGameElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isFetchingNextPage, fetchNextPage, hasNextPage]
+  );
 
   if (isLoading) {
     return (
@@ -85,20 +89,21 @@ const GameFeed = () => {
 
   return (
     <div className='flex flex-wrap gap-4'>
-      {data.results.map((game: GameData) => {
-        const transformedGame: GameCardProps = {
-          ...game,
-          platforms: transformPlatforms(game.platforms)
-        };
-
-        return (
-          <div key={game.id}>
-            <CardGame {...transformedGame} />
-          </div>
-        );
-      })}
+      {data?.pages.map((page: any, pageIndex) =>
+        page.results.map((game: Igame, gameIndex: number) => {
+          const isLastGame = pageIndex === data.pages.length - 1 && gameIndex === page.results.length - 1;
+          return (
+            <CardGame
+              key={game.id}
+              {...game}
+              ref={isLastGame ? lastGameElementRef : null}
+            />
+          );
+        })
+      )}
+      {isFetchingNextPage && <div className='text-center'>Loading more...</div>}
     </div>
   );
-}
+};
 
 export default GameFeed;
