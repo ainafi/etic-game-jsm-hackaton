@@ -103,14 +103,14 @@ const SignIn = () => {
           </Button>
         </form>
       </Form>
-      <div>
+      {/* <div>
         <p className='text-center pt-2 text-white'>or</p>
         <Button className='bg-white w-[300px] flex items-center justify-between my-3'>
           <Image src='/image/google.png' width={20} height={20} alt='google' />
           <span className='text-black'>Connect with Google</span>
           <span></span>
         </Button>
-      </div>
+      </div> */}
       <p className='text-white py-2'>
         I don&apos;t have an account
         <span>

@@ -3,7 +3,7 @@ import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -22,7 +22,7 @@ const formSchema = z.object({
   }),
 })
 
-const Navbar = () => {
+const AnimeNav = () => {
   const router = useRouter()
   const { setSearch } = useSearchStore()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,7 +34,7 @@ const Navbar = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setSearch(values.query)
-    router.push("/movie/feed/search")
+    router.push("/anime/feed/search")
   }
 
   return (
@@ -67,4 +67,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default AnimeNav

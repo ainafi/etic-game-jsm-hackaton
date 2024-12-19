@@ -28,7 +28,7 @@ export default function FeedLayout({ children }: { children: React.ReactNode }) 
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
         <ProtectedRoute>
-          <main className="bg-dark !text-white flex min-h-screen w-full flex-col lg:flex-row" >
+          <main className="bg-background !text-white flex min-h-screen w-full flex-col lg:flex-row" >
             <div className="hidden lg:flex">
               <AppSidebar />  
             </div>

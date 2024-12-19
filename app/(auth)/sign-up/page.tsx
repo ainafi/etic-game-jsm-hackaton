@@ -107,14 +107,14 @@ const SignUp = () => {
           </Button>
         </form>
       </Form>
-      <div>
+      {/* <div>
         <p className='text-center pt-2 text-white'>ou</p>
         <Button className='bg-white w-[300px] flex items-center justify-between my-3'>
           <Image src='/image/google.png' width={20} height={20} alt='google'/>
           <span className='text-black'>Connecter with google</span>
           <span></span>
         </Button>
-      </div>
+      </div> */}
       <p className='text-white py-2'>
         I have an account
         <span>

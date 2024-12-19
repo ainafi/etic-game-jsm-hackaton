@@ -1,13 +1,14 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter,usePathname} from "next/navigation";
 import useAuthStore from "@/store/useAuth";
 import { getCurrentUser, logout } from "@/lib/auth";
-import { toast } from '@/hooks/use-toast';
-import useNetworkStatus from '@/hooks/useNetworkStatus';
+import { toast } from "@/hooks/use-toast";
+import useNetworkStatus from "@/hooks/useNetworkStatus";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
   const isOnline = useNetworkStatus();
 
@@ -17,10 +18,15 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         const currentUser = await getCurrentUser();
         if (currentUser) {
           useAuthStore.getState().setUser(currentUser);
-          router.push('/discover');
+          if (pathname === '/') {
+            router.push('/discover');
+          }
+        } else {
+          router.push('/sign-in');
+          toast({ title: "Please connect to your account", variant: "destructive" });
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         router.push('/sign-in');
         toast({ title: "Please connect to your account", variant: "destructive" });
       }
@@ -29,7 +35,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     if (!user) {
       checkUser();
     }
-  }, [router, user]);
+  }, [pathname, router, user]);
 
   useEffect(() => {
     if (!isOnline) {
