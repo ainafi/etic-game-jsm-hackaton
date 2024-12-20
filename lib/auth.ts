@@ -9,7 +9,6 @@ interface INewUser {
 
 export async function createUserAccount(user: INewUser) {
   try {
-    console.log("Creating user account with email:", user.email); // Debug
     const newAccount = await account.create(ID.unique(), user.email, user.password);
     if (!newAccount) throw new Error('Account creation failed');
 
@@ -20,7 +19,6 @@ export async function createUserAccount(user: INewUser) {
       profil_Url: [avatarUrl],
     });
 
-    console.log("User account created successfully:", newUser); // Debug
     return newUser;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -89,14 +87,12 @@ export async function getCurrentUser() {
     const currentAccount = await account.get();
     if (!currentAccount) throw new Error('No current account found');
 
-    console.log("Current account:", currentAccount);
     const currentUser = await databases.listDocuments(
       databasesId,
       userCollectionIds,
       [Query.equal('email', currentAccount.email)]
     );
 
-    console.log("Current user data from database:", currentUser);
     useAuthStore.getState().setUser(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {

@@ -33,7 +33,6 @@ const AnimeDetails = () => {
   }
 
   const anime = data.data
-  console.log(anime)
 
   return (
     <div className="min-h-screen bg-background text-foreground">

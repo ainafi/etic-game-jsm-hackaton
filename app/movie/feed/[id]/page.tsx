@@ -47,7 +47,7 @@ const MovieDetails: React.FC = () => {
   if (!movie) {
     return <div>Movie not found</div>;
   }
-  console.log(movie)
+
   return (
     <div className='relative'>
       <div

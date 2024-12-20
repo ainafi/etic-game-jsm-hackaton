@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import useCartStore from '@/store/useStore';
 import { account, appwriteConfig, databases } from '@/lib/appwriter/config';
+import { useToast } from '@/hooks/use-toast';
 interface Anime {
   mal_id: number
   title?: string
@@ -38,13 +39,14 @@ interface Game {
 }
 import { ID } from 'appwrite';
 const OrderCard = () => {
+  const { toast } = useToast();
   const cart = useCartStore((state) => state.cart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const clearCart = useCartStore((state) => state.clearCart);
   const handleCheckOut = async () => {
     const cart = useCartStore.getState().cart;  
   
-  
+    
     try {
       const user = await account.get()
       if (!user) {
@@ -64,20 +66,20 @@ const OrderCard = () => {
       }));
 
       console.log("Prepared orders:", orders); 
-  
+      toast({ title: "odrer created", variant: "default" });
       
       const orderPromises = orders.map(order =>
         databases.createDocument(
-          appwriteConfig.databasesId ?? '', // Ensure the database ID is correct
-          appwriteConfig.commandeId ?? '',  // Ensure the collection ID is correct
+          appwriteConfig.databasesId ?? '', 
+          appwriteConfig.commandeId ?? '', 
           ID.unique(),
           order,
 
         )
       );
       
-      const createdOrders = await Promise.all(orderPromises);  // Wait for all orders to be created
-      console.log("Orders created:", createdOrders);
+       await Promise.all(orderPromises);  
+
     
       // Optionally clear the cart after successful checkout
       useCartStore.getState().clearCart();

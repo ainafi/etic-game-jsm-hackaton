@@ -26,8 +26,7 @@ const MobileNav = () => {
       }
       if(error){
         return <div>Error</div>
-      }
-      console.log(data)
+      } 
   return (
     <div>
         <DropdownMenu>

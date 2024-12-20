@@ -32,7 +32,7 @@ const Recommendation = ({id}:{id:string}) => {
       if(error){
         return <div>Error loading data</div>
       }
-      console.log(data)
+     
     
 
   return (

@@ -45,7 +45,7 @@ const SignIn = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      console.log("Form values:", values); // Debug
+     
       const session = await signInAccount({ email: values.email, password: values.password });
       if (!session) {
         toast({ title: "Sign In failed, try again", variant: "destructive" });
