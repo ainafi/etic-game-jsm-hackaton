@@ -1,6 +1,7 @@
-import React from 'react'
-import { ShoppingCart, X } from 'lucide-react'
-import Image from 'next/image'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React from 'react';
+import { ShoppingCart, X } from 'lucide-react';
+import Image from 'next/image';
 import {
   Sheet,
   SheetContent,
@@ -9,14 +10,14 @@ import {
   SheetTitle,
   SheetTrigger,
   SheetClose
-} from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
-import useCartStore from '@/store/useStore'
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import useCartStore from '@/store/useStore';
 
 const OrderCard = () => {
-  const cart = useCartStore((state) => state.cart)
-  const removeFromCart = useCartStore((state) => state.removeFromCart)
-  const clearCart = useCartStore((state) => state.clearCart)
+  const cart = useCartStore((state) => state.cart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   return (
     <Sheet>
@@ -24,7 +25,7 @@ const OrderCard = () => {
         <Button variant="outline" size="icon" className="relative bg-transparent">
           <ShoppingCart className="h-4 w-4" />
           <span className="sr-only">Shopping Cart</span>
-          <div className="absolute -top-3  -right-2 h-5 w-5 rounded-full bg-primary text-xs text-primary-foreground flex items-center justify-center text-red font-semibold bg-white">
+          <div className="absolute -top-3 -right-2 h-5 w-5 rounded-full bg-white text-xs text-primary-foreground flex items-center justify-center text-red font-semibold ">
             {cart.length}
           </div>
         </Button>
@@ -35,23 +36,31 @@ const OrderCard = () => {
           <SheetDescription>
             <div className="mt-8 space-y-4">
               {cart.map((item) => (
-                <div key={item.id} className="flex items-center space-x-4 p-4 bg-secondary rounded-lg">
+                <div key={'mal_id' in item ? item.mal_id : item.id} className="flex items-center space-x-4 p-4 bg-white rounded-lg">
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                    alt={item.name}
+                    src={
+                      'poster_path' in item
+                        ? `https://image.tmdb.org/t/p/w500/${item.poster_path}`
+                        : 'background_image' in item
+                        ? item.background_image
+                        : item.images.jpg.image_url
+                    }
+                     /* @ts-expect-error */
+                    alt={item.name || item.title}
                     width={60}
                     height={90}
                     className="rounded-md"
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold">{item.name}</h3>
+                    {/* @ts-expect-error */}
+                    <h3 className="font-semibold">{item.name || item.title}</h3>
                   </div>
                   <Button
-                    
                     className='bg-red'
                     size="icon"
-                    onClick={() => removeFromCart(item.id)}
-                    aria-label={`Remove ${item.name} from cart`}
+                    onClick={() => removeFromCart('mal_id' in item ? item.mal_id : item.id)}
+                      /* @ts-expect-error */
+                    aria-label={`Remove ${item.name || item.title} from cart`}
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -77,8 +86,7 @@ const OrderCard = () => {
         </SheetClose>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
-export default OrderCard
-
+export default OrderCard;

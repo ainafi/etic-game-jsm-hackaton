@@ -2,18 +2,21 @@ import Image from 'next/image';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import useCartStore from '@/store/useStore';
 
 interface IAnime {
-    mal_id: number;
-    title: string;
-    images: {
-      jpg: {
-        image_url: string;
-      };
+  mal_id: number;
+  title: string;
+  images: {
+    jpg: {
+      image_url: string;
     };
+  };
 }
 
 const CardAnime = React.forwardRef<HTMLDivElement, IAnime>(({ mal_id, title, images }, ref) => {
+  const addToCart = useCartStore((state) => state.addToCart);
+  
   return (
     <div ref={ref} className='w-[300px]'>
       <Image className='rounded-lg h-[300px] object-cover' src={images.jpg.image_url} width={300} height={300} alt='anime' />
@@ -24,7 +27,7 @@ const CardAnime = React.forwardRef<HTMLDivElement, IAnime>(({ mal_id, title, ima
         <Link href={`/anime/feed/${mal_id}`}>
           <Button className='mr-4 bg-transparent border border-primary'>details</Button>
         </Link>
-        <Button>Order</Button>
+        <Button onClick={() => addToCart({ mal_id, title, images })}>Order</Button>
       </div>
     </div>
   );

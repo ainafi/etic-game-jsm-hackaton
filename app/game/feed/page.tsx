@@ -7,7 +7,7 @@ import { fetchDataGame } from '@/lib/fetchGame';
 import CardGame from '@/components/shared/CardGame';
 
 interface Igame {
-  id: string;
+  id: number;
   background_image: string;
   name: string;
   page: number;

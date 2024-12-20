@@ -78,7 +78,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className='text-white capitalize'>email</FormLabel>
                 <FormControl>
-                  <Input className='w-[300px]' placeholder="votre email" {...field} />
+                  <Input className='w-[300px] text-white' placeholder="votre email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +91,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className='text-white'>Mot de passe</FormLabel>
                 <FormControl>
-                  <Input type='password' placeholder="votre mot de passe " {...field} />
+                  <Input type='password' className="text-white" placeholder="votre mot de passe " {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
