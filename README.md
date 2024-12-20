@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Etic Store
 
-## Getting Started
+Etic Store is a web platform designed to manage user orders for a wide selection of anime, movies, and games. The site offers a seamless shopping experience by integrating external APIs to provide a rich catalog of content for users to explore and purchase.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Authentication**: Users can log in or create an account.
+- **Browse and Order**: Users can choose from a wide variety of anime, games, and movies to add to their order list.
+- **APIs Integration**: Integrated with TMDB, RAWG, and JUKAN APIs for anime, movie, and game data.
+- **Easy Navigation**: Simple and intuitive interface to quickly find and order favorite items.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Advantages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Paperless Catalog**: Store owners no longer need to design or print paper catalogs, saving time and resources.
+- **Enhanced User Experience**: Clients can easily browse and find their favorite content in one place.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+- **Frontend**: Next.js, TypeScript
+- **State Management**: Zustand
+- **Backend**: Appwrite
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/etic-store.git
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Install dependencies using `pnpm`:
+    ```bash
+    cd etic-store
+    pnpm install
+    ```
 
-## Deploy on Vercel
+3. Set up environment variables for Appwrite and API keys.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Run the development server:
+    ```bash
+    pnpm dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application will be running on `http://localhost:3000`.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
