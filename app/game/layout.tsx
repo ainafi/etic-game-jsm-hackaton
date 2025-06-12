@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "@/components/shared/Navbar";
 import OrderCard from "@/components/shared/OrderCard";
 import GameSidebar from "@/components/shared/GameSidebar";
-import ProtectedRoute from "@/middleware/ProtectedRoute";
+
 
 
 const queryClient = new QueryClient();
@@ -27,7 +27,7 @@ export default function GameFeedLayout({ children }: { children: React.ReactNode
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
-       <ProtectedRoute>
+   
           <main className="bg-background !text-white flex min-h-screen w-full flex-col lg:flex-row" >
             <div className="hidden lg:flex">
               <GameSidebar />  
@@ -51,7 +51,7 @@ export default function GameFeedLayout({ children }: { children: React.ReactNode
             </div>
           </main>
 
-       </ProtectedRoute>
+     
         
       </SidebarProvider>
     </QueryClientProvider>

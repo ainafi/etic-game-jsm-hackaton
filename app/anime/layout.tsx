@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AnimeNav from "@/components/shared/anime/Animenav";
 import OrderCard from "@/components/shared/OrderCard";
 import AnimeSidebar from "@/components/shared/anime/AnimeSidebar";
-import ProtectedRoute from "@/middleware/ProtectedRoute";
+
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ export default function AnimeFeedLayout({ children }: { children: React.ReactNod
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
-        <ProtectedRoute>
+   
           <main className="bg-background !text-white flex min-h-screen w-full flex-col lg:flex-row" >
             <div className="hidden lg:flex">
               <AnimeSidebar />  
@@ -50,7 +50,7 @@ export default function AnimeFeedLayout({ children }: { children: React.ReactNod
             </div>
           </main>
 
-        </ProtectedRoute>
+     
         
       </SidebarProvider>
     </QueryClientProvider>

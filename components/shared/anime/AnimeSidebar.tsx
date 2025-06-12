@@ -17,7 +17,6 @@ import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { User2, ChevronUp } from 'lucide-react'
-import { logout } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
@@ -62,7 +61,7 @@ const AnimeSidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await logout()
+     
       router.push("/")
       toast({ title: "Logout success", variant: "default" })
     } catch (error) {

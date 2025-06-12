@@ -13,8 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import useCartStore from '@/store/useStore';
-import { account, appwriteConfig, databases } from '@/lib/appwriter/config';
-import { useToast } from '@/hooks/use-toast';
+
 interface Anime {
   mal_id: number
   title?: string
@@ -37,55 +36,15 @@ interface Game {
   title?: string
   background_image: string
 }
-import { ID } from 'appwrite';
+
 const OrderCard = () => {
-  const { toast } = useToast();
   const cart = useCartStore((state) => state.cart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const clearCart = useCartStore((state) => state.clearCart);
   const handleCheckOut = async () => {
     const cart = useCartStore.getState().cart;  
   
-    
-    try {
-      const user = await account.get()
-      if (!user) {
-        console.error("User is not authenticated");
-        return; 
-      }
-      const userId = user.$id; 
   
-
-      const orders = cart.map((item) => ({
-        title: (item as Movie | Game).name || (item as Anime).title,
-        image_Url: 'poster_path' in item 
-  ? `https://image.tmdb.org/t/p/w500/${item.poster_path}` 
-  : (item as Game).background_image || (item as Anime).images?.jpg?.image_url,
-        orderId: ID.unique(),  
-        creator: userId
-      }));
-
-      console.log("Prepared orders:", orders); 
-      toast({ title: "odrer created", variant: "default" });
-      
-      const orderPromises = orders.map(order =>
-        databases.createDocument(
-          appwriteConfig.databasesId ?? '', 
-          appwriteConfig.commandeId ?? '', 
-          ID.unique(),
-          order,
-
-        )
-      );
-      
-       await Promise.all(orderPromises);  
-
-    
-      // Optionally clear the cart after successful checkout
-      useCartStore.getState().clearCart();
-    } catch (error) {
-      console.error("Error during checkout:", error);
-    }
   };
   return (
     <Sheet>
