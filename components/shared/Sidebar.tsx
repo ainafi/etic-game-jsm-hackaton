@@ -1,6 +1,9 @@
 "use client"
-import { fetchData } from '@/lib/fetchdata'
-import { useQuery } from '@tanstack/react-query'
+
+import React, { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import { toast } from "@/hooks/use-toast"
 
 import {
   Sidebar,
@@ -14,29 +17,44 @@ import {
   SidebarMenuItem,
   SidebarMenuSkeleton,
 } from "@/components/ui/sidebar"
-import React, { useState } from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
-import { DropdownMenuTrigger } from '../ui/dropdown-menu'
-import { User2, ChevronUp } from 'lucide-react'
 
-import { useRouter } from 'next/navigation'
-import { toast } from '@/hooks/use-toast'
-import { Button } from '../ui/button'
-import useGenre from '@/store/useGenre'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { User2, ChevronUp } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-interface Igenre{
-  id:number
-  name:string
+import useGenre from "@/store/useGenre"
+import useAuthStore from "@/store/useAuth"
+import { authClient } from "@/lib/auth-client"
+import { fetchData } from "@/lib/fetchdata"
+
+interface IGenre {
+  id: number
+  name: string
 }
+
 const AppSidebar = () => {
-  const {genre}=useGenre()
-  const [isSelected,setIsSelected]=useState("Genre")
-  const router=useRouter()
-  const {isLoading,data,error}=useQuery({
-    queryKey:["genres"],
-    queryFn:()=>fetchData(`genre/${genre}/list`),
-    refetchInterval:100
+  const user = useAuthStore((state) => state.user)
+  const clearUser = useAuthStore((state) => state.clearUser)
+  const { genre } = useGenre()
+  const [isSelected, setIsSelected] = useState("Genre")
+  const router = useRouter()
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut()
+      clearUser()
+      toast({ title: "Logged out successfully" })
+      router.push("/sign-in")
+    } catch (error) {
+      toast({ title: "Logout failed", description: "Try again later" })
+    }
+  }
+
+  const { isLoading, data, error } = useQuery({
+    queryKey: ["genres"],
+    queryFn: () => fetchData(`genre/${genre}/list`),
+    refetchInterval: 100,
   })
+
   if (isLoading) {
     return (
       <Sidebar>
@@ -57,25 +75,27 @@ const AppSidebar = () => {
       </Sidebar>
     )
   }
-  
 
-  if (error) return <div>Error: {error.message}</div>
-  const handleLogout=async ()=>{
-   
-  }
+  if (error) return <div className="text-red-500 p-4">Error: {(error as Error).message}</div>
+
   return (
-  
-      <Sidebar>
+    <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Genre</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.genres.map((genres:Igenre) => (
-                
-                <SidebarMenuItem key={genres.id}>
+              {data.genres.map((genreItem: IGenre) => (
+                <SidebarMenuItem key={genreItem.id}>
                   <SidebarMenuButton asChild>
-                      <span onClick={()=>setIsSelected(genres.name)} className={`${isSelected === genres.name ? "bg-white text-black" : ""} cursor-pointer`}>{genres.name}</span>
+                    <span
+                      onClick={() => setIsSelected(genreItem.name)}
+                      className={`cursor-pointer px-2 py-1 rounded-md ${
+                        isSelected === genreItem.name ? "bg-white text-black" : "hover:bg-gray-200"
+                      }`}
+                    >
+                      {genreItem.name}
+                    </span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -83,36 +103,34 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <User2 /> Username
-                    <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="top"
-                  className="w-[--radix-popper-anchor-width] mx-4"
-                >
-                  <DropdownMenuItem>
-                    <span>Account</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Button className='bg-red my-2' onClick={handleLogout}>Sign out</Button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-    </Sidebar>
 
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 className="mr-2" />
+                  {user?.name || "Anonymous"}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" className="w-full bg-white p-2 rounded shadow-md">
+                <DropdownMenuItem asChild>
+                  <Button
+                    onClick={handleLogout}
+                    variant="destructive"
+                    className="w-full justify-start"
+                  >
+                    Logout
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
   )
 }
 

@@ -1,4 +1,5 @@
 "use client"
+
 import { useQuery } from '@tanstack/react-query'
 import {
   Sidebar,
@@ -12,15 +13,22 @@ import {
   SidebarMenuItem,
   SidebarMenuSkeleton,
 } from "@/components/ui/sidebar"
+
 import React, { useState } from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
-import { DropdownMenuTrigger } from '../ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu' // ✅ import corrigé
+
 import { User2, ChevronUp } from 'lucide-react'
-import { logout } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/hooks/use-toast'
 import { fetchGame } from '@/lib/fetchGame'
 import { Button } from '../ui/button'
+import { authClient } from '@/lib/auth-client'
+import useAuthStore from '@/store/useAuth'
 
 interface IGenre {
   id: number
@@ -28,13 +36,28 @@ interface IGenre {
 }
 
 const GameSidebar = () => {
+  const user = useAuthStore((state) => state.user)
+  const clearUser = useAuthStore((state) => state.clearUser)
   const [isSelected, setIsSelected] = useState("Genre")
   const router = useRouter()
-  const { isLoading, data, error } = useQuery({
+
+  const { isLoading, data, error } = useQuery<{ results: IGenre[] }, Error>({
     queryKey: ["genres"],
     queryFn: () => fetchGame(`genres`),
-    refetchInterval: 100
+    refetchInterval: 100,
   })
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut()
+      clearUser()
+      toast({ title: "Logged out successfully" })
+      router.push("/sign-in")
+    } catch (error) {
+      toast({ title: "Logout failed", description: "Try again later" })
+    }
+  }
+
   if (isLoading) {
     return (
       <Sidebar>
@@ -58,19 +81,6 @@ const GameSidebar = () => {
 
   if (error) return <div>Error: {error.message}</div>
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-      router.push("/")
-      toast({ title: "Logout success", variant: "default" })
-    } catch (error) {
-      console.error(error)
-      toast({ title: "Logout failed", variant: "destructive" })
-    }
-  }
-
-
-
   return (
     <Sidebar>
       <SidebarContent>
@@ -78,38 +88,36 @@ const GameSidebar = () => {
           <SidebarGroupLabel>Genre</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-
-                {data.results.map((genre: IGenre) => (
-                  <SidebarMenuItem key={genre.id}>
-                    <SidebarMenuButton asChild>
-                      <span
-                        onClick={() => setIsSelected(genre.name)}
-                        className={`${isSelected === genre.name ? "bg-white text-black" : ""} cursor-pointer`}
-                      >
-                        {genre.name}
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-
+              {data?.results.map((genre) => (
+                <SidebarMenuItem key={genre.id}>
+                  <SidebarMenuButton asChild>
+                    <span
+                      onClick={() => setIsSelected(genre.name)}
+                      className={`cursor-pointer px-2 py-1 rounded ${
+                        isSelected === genre.name ? "bg-white text-black" : ""
+                      }`}
+                    >
+                      {genre.name}
+                    </span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Username
+                  <User2 /> {user?.data?.user?.name || "Anonymous"}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width] mx-4"
-              >
+              <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width] mx-4">
                 <DropdownMenuItem>
                   <span>Account</span>
                 </DropdownMenuItem>
@@ -117,7 +125,9 @@ const GameSidebar = () => {
                   <span>Billing</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Button className='bg-red my-2' onClick={handleLogout}>Sign out</Button>
+                  <Button variant="destructive" className="w-full" onClick={handleLogout}>
+                    Sign out
+                  </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

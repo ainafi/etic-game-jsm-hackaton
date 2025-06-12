@@ -1,8 +1,13 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
+import useAuthStore from '@/store/useAuth'
 import Link from 'next/link'
 import React from 'react'
 
 const Discover = () => {
+    const user=useAuthStore((state)=>state.user)
+    console.log(user)
   return (
     <>
     <main className='bg-background h-screen flex items-center justify-center'>
