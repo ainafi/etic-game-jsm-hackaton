@@ -35,9 +35,10 @@ interface IGenre {
 const AppSidebar = () => {
   const user = useAuthStore((state) => state.user)
   const clearUser = useAuthStore((state) => state.clearUser)
-  const { genre } = useGenre()
-  const [isSelected, setIsSelected] = useState("Genre")
+  const { genre, setgenre } = useGenre()  // <-- ajout de setgenre ici
+  const [isSelected, setIsSelected] = useState(genre || "Genre")
   const router = useRouter()
+  
   const handleLogout = async () => {
     try {
       await authClient.signOut()
@@ -55,6 +56,8 @@ const AppSidebar = () => {
     refetchInterval: 100,
   })
 
+
+  console.log(data)
   if (isLoading) {
     return (
       <Sidebar>
@@ -89,7 +92,10 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={genreItem.id}>
                   <SidebarMenuButton asChild>
                     <span
-                      onClick={() => setIsSelected(genreItem.name)}
+                      onClick={() => {
+                        setIsSelected(genreItem.name)  // local pour l’UI
+                        setgenre(genreItem.name)       // global pour le store Zustand
+                      }}
                       className={`cursor-pointer px-2 py-1 rounded-md ${
                         isSelected === genreItem.name ? "bg-white text-black" : "hover:bg-gray-200"
                       }`}
@@ -117,11 +123,7 @@ const AppSidebar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-full bg-white p-2 rounded shadow-md">
                 <DropdownMenuItem asChild>
-                  <Button
-                    onClick={handleLogout}
-                    variant="destructive"
-                    className="w-full justify-start"
-                  >
+                  <Button onClick={handleLogout} variant="destructive" className="w-full justify-start">
                     Logout
                   </Button>
                 </DropdownMenuItem>
