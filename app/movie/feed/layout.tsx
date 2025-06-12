@@ -3,7 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react";
 import {  SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/shared/Sidebar";
-import ProtectedRoute from "@/middleware/ProtectedRoute";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MobileNav from "@/components/shared/MobileNav";
 import Navbar from "@/components/shared/Navbar";
@@ -27,7 +27,6 @@ export default function FeedLayout({ children }: { children: React.ReactNode }) 
   return (
     <QueryClientProvider client={queryClient}>
       <SidebarProvider>
-        <ProtectedRoute>
           <main className="bg-background !text-white flex min-h-screen w-full flex-col lg:flex-row" >
             <div className="hidden lg:flex">
               <AppSidebar />  
@@ -50,7 +49,6 @@ export default function FeedLayout({ children }: { children: React.ReactNode }) 
                 </div>
             </div>
           </main>
-        </ProtectedRoute>
       </SidebarProvider>
     </QueryClientProvider>
   );

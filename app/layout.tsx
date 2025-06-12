@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Suspense } from "react";
-import Loading from "./loading";
 import {Montserrat} from 'next/font/google'
 
 const montserrat = Montserrat({
@@ -13,7 +11,6 @@ export const metadata: Metadata = {
   title: "etic game",
   description: "Show case a new movie and Commade ",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,9 +21,7 @@ export default function RootLayout({
         <body
           className={`antialiased ${montserrat.className}`}
         >
-        <Suspense fallback={<Loading/>}>
           {children}
-        </Suspense>
         </body>
       </html>
 

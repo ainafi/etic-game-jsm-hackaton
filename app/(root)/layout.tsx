@@ -20,7 +20,6 @@ export default function RootLayout({children,}:{children: React.ReactNode;}) {
         <main className="overflow-x-hidden ">
           {children}
         </main>
-
       </QueryClientProvider>
     );
   }

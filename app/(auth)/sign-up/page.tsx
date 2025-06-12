@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react"
-import useCheckSession from '@/hooks/useCheckSession';
+
 import {
   Form,
   FormControl,
@@ -18,11 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from 'next/link';
-import { createUserAccount, signInAccount } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "at least 2 characters",
+  }),
   email: z.string().email(),
   password: z.string().min(6, {
     message: "at last 6 characters",
@@ -30,39 +32,20 @@ const formSchema = z.object({
 });
 
 const SignUp = () => {
-  useCheckSession();
-  const { toast } = useToast()
   const [isLoading, setIsLoading] = React.useState(false);
   const router=useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "", 
       email: "",
       password: ""
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    try {
-      const newUser = await createUserAccount(values);
-      if(!newUser) throw Error
-      toast({title:"sign up success",variant:"default"})
-
-      const session=await signInAccount({email:values.email,password:values.password})
-      if(!session){
-        toast({title:"sign In failed try again",variant:"destructive"})
-        return ;
-      }
-        router.push("/discover")
-  
-    } catch (error) {
-      return toast({title:"sign up failed try again",variant:"destructive"})
-      console.error(error);
-    } finally{
-      setIsLoading(false)
-    }
-    
+   
+    console.log(values);
   }
 
   return (
@@ -71,6 +54,19 @@ const SignUp = () => {
       <h2 className='text-2xl py-5 font-semibold text-white'>Signup</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-white capitalize'>name</FormLabel>
+                <FormControl>
+                  <Input className='w-[300px] text-white' placeholder="votre nom" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -107,14 +103,6 @@ const SignUp = () => {
           </Button>
         </form>
       </Form>
-      {/* <div>
-        <p className='text-center pt-2 text-white'>ou</p>
-        <Button className='bg-white w-[300px] flex items-center justify-between my-3'>
-          <Image src='/image/google.png' width={20} height={20} alt='google'/>
-          <span className='text-black'>Connecter with google</span>
-          <span></span>
-        </Button>
-      </div> */}
       <p className='text-white py-2'>
         I have an account
         <span>

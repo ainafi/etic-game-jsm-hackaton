@@ -1,16 +1,11 @@
 import { Button } from '@/components/ui/button'
-import ProtectedRoute from '@/middleware/ProtectedRoute'
 import Link from 'next/link'
 import React from 'react'
 
 const Discover = () => {
   return (
     <>
-   <ProtectedRoute>
-
-   
     <main className='bg-background h-screen flex items-center justify-center'>
-        
         <div className="relative flex flex-col md:flex-row justify-center items-center gap-8 mb-16">
         {/* Movie Card */}
         <div className="w-52 md:w-64 bg-white rounded-3xl p-2 transform transition-transform hover:scale-105">
@@ -63,11 +58,7 @@ const Discover = () => {
             </div>
         </div>
         </div>
-
-
-
     </main>
-    </ProtectedRoute>
     </>
   )
 }

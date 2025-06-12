@@ -7,9 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
-import { signInAccount } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast';
 import {
   Form,
   FormControl,
@@ -20,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from 'next/link';
-import useCheckSession from '@/hooks/useCheckSession'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -28,11 +25,8 @@ const formSchema = z.object({
     message: "at least 6 characters",
   }),
 });
-
 const SignIn = () => {
-  useCheckSession();
   const router = useRouter();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,24 +35,8 @@ const SignIn = () => {
       password: ""
     },
   });
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    try {
-     
-      const session = await signInAccount({ email: values.email, password: values.password });
-      if (!session) {
-        toast({ title: "Sign In failed, try again", variant: "destructive" });
-        return;
-      }
-      toast({ title: "Sign In success", variant: "default" });
-      router.push("/discover")
-    } catch (error) {
-      toast({ title: "Sign In failed, try again", variant: "destructive" });
-      console.error("Error during sign in:", error); // Debug
-    } finally {
-      setIsLoading(false);
-    }
+   console.log(values);
   }
 
   return (
@@ -103,14 +81,14 @@ const SignIn = () => {
           </Button>
         </form>
       </Form>
-      {/* <div>
+      <div>
         <p className='text-center pt-2 text-white'>or</p>
         <Button className='bg-white w-[300px] flex items-center justify-between my-3'>
           <Image src='/image/google.png' width={20} height={20} alt='google' />
           <span className='text-black'>Connect with Google</span>
           <span></span>
         </Button>
-      </div> */}
+      </div>
       <p className='text-white py-2'>
         I don&apos;t have an account
         <span>

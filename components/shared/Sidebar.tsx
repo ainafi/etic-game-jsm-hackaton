@@ -18,7 +18,7 @@ import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { User2, ChevronUp } from 'lucide-react'
-import { logout } from '@/lib/auth'
+
 import { useRouter } from 'next/navigation'
 import { toast } from '@/hooks/use-toast'
 import { Button } from '../ui/button'
@@ -61,16 +61,7 @@ const AppSidebar = () => {
 
   if (error) return <div>Error: {error.message}</div>
   const handleLogout=async ()=>{
-    try {
-      await logout()
-      router.push("/")
-      toast({title:"logout success",variant:"default"})
-      console.log("logout success")
-      
-    } catch (error) {
-      console.error(error)
-      toast({title:"logout faild",variant:"destructive"})
-    }
+   
   }
   return (
   
